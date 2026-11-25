@@ -1,0 +1,33 @@
+# 本地库与产物
+data/local.db
+data/local.db-wal
+data/local.db-shm
+out/
+tmp/
+logs/
+
+# 凭据（从本机浏览器读出来的登录态，绝不提交）
+config/yae_token.json
+config/mmm_token.json
+*_token.json
+
+# 程序写出来的业务记录（仓库里只保留空壳）
+config/inbound_ledger.json.bak*
+config/*.bad.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.bak
+*.bak.*

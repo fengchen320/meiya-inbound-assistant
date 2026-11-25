@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "updated": "2026-11-20",
+  "note": "品牌名以本店日常叫法为准（canonical 就是最终写进美亚「品牌」列的值）。matches 为归一化键：小写、去空格与点号后比较。示例把 Cortex 写成「以色列Cortex」，按自己产品库的写法改。",
+  "brands": [
+    {
+      "canonical": "以色列Cortex",
+      "matches": [
+        "dentall",
+        "dentallimplantsindustriesltd",
+        "cortex",
+        "cortexdentalimplantsindustriesltd",
+        "cortexc",
+        "科特斯",
+        "以色列cortex",
+        "以色列科特斯"
+      ],
+      "license_nos": [
+        "国械注进20153172425"
+      ],
+      "source": "示例：原产品库写作 Dentall，这里指定为以色列Cortex"
+    },
+    {
+      "canonical": "奥美科/ORMCO",
+      "matches": [
+        "ormcocorporation",
+        "ormco",
+        "奥美科",
+        "奥美科ormco"
+      ],
+      "license_nos": [
+        "国械注进20162174128"
+      ],
+      "source": "产品库既有写法（物品编号 10309）"
+    },
+    {
+      "canonical": "马尼/MANI",
+      "matches": [
+        "mani",
+        "马尼"
+      ],
+      "license_nos": [],
+      "source": "原有内置别名表"
+    }
+  ]
+}

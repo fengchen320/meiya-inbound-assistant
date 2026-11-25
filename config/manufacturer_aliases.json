@@ -1,0 +1,294 @@
+{
+  "version": 1,
+  "updated_at": "2026-11-25",
+  "description": "生产企业（注册人/生产厂家）别名与注册证映射表。用于把单据上被截断、简写的生产厂家补全为法定全称。新增厂家只需改本文件，不改代码。",
+  "fields": {
+    "canonical": "法定全称（英文/原文），写入美亚『生产厂家』",
+    "canonical_cn": "中文名，写入备注或界面展示",
+    "brands": "该企业旗下品牌，用于品牌列与 SKU 主键",
+    "license_nos": "该企业持有的中国注册证号（主号），最可靠的定位键",
+    "matches": "可接受的输入写法/截断前缀，匹配时先归一化",
+    "source": "来源：user-confirmed / cert-pdf / nmpa-query"
+  },
+  "aliases": [
+    {
+      "canonical": "Cortex Dental Implants Industries Ltd.",
+      "canonical_cn": "科特斯牙科种植体工业有限公司",
+      "country": "IL",
+      "brands": [
+        "Dentall",
+        "Cortex"
+      ],
+      "license_nos": [
+        "国械注进20153172425"
+      ],
+      "matches": [
+        "cortex dental implants industries ltd",
+        "cortex dental implants industries",
+        "cortex dental implants",
+        "cortex",
+        "dentall implants industries ltd",
+        "dentall implants industries ltd",
+        "dentall implants industries",
+        "dentall implants",
+        "dentall implant",
+        "dentall"
+      ],
+      "source": "user-confirmed-2026-11-20",
+      "note": "《随货同行对账单》纸张列宽不足，只印出「Dentall Implants Industries L」一类残串。Dentall 是该公司的种植体品牌名，不是企业名；企业法定名为 Cortex Dental Implants Industries Ltd.（以色列）。"
+    },
+    {
+      "canonical": "Ormco Corporation",
+      "canonical_cn": "奥美科公司",
+      "country": "US",
+      "brands": [
+        "ORMCO",
+        "奥美科"
+      ],
+      "license_nos": [
+        "国械注进20162174128",
+        "国械注进20182170121",
+        "国械注进20163632246"
+      ],
+      "matches": [
+        "ormco corporation",
+        "ormcocorporation",
+        "ormco",
+        "奥美科"
+      ],
+      "source": "cert-pdf",
+      "note": "供应商销售清单原文写作 OrmcoCorporation（无空格），归一化后仍可精确命中；注册证国械注进20162174128 可唯一确定。同一厂家在不同单据里还会写成带空格的多个子号（如 国械注进20182170121 国械注进20163632246），一并登记。"
+    },
+    {
+      "canonical": "DMG Chemisch-Pharmazeutische Fabrik GmbH",
+      "canonical_cn": "德国DMG化学医药集团公司",
+      "country": "DE",
+      "brands": [
+        "DMG",
+        "德国DMG",
+        "Luxatemp"
+      ],
+      "license_nos": [
+        "国械注进20173637237",
+        "国械注进20172177237"
+      ],
+      "matches": [
+        "dmg chemisch-pharmazeutische fabrik gmbh",
+        "德国dmg化学医药集团公司dmg chemisch-pharmazeutische fabrik gmbh",
+        "德国dmg化学医药集团公司",
+        "德国dmg"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "单据原文是「德国DMG化学医药集团公司DMG Chemisch-Pharmazeutische Fabrik GmbH」共 53 字，超过美亚建档表「生产厂家」50 字上限，导入被退回「1.生产厂家最多支持输入50个字」。法定名 DMG Chemisch-Pharmazeutische Fabrik GmbH（42 字）可完整写入；中文名为国内常用叫法，供界面与备注展示。注册证为复合号 国械注进20173637237/国械注进20172177237，两个子号都登记，任一张单据写其中一个或两个连写都能命中。"
+    },
+    {
+      "canonical": "上海荣祥齿科材料有限公司",
+      "canonical_cn": "上海荣祥齿科材料有限公司",
+      "country": "CN",
+      "brands": [
+        "荣祥"
+      ],
+      "license_nos": [
+        "国械注准20173634687",
+        "国械注准20173174687",
+        "沪青械备20200027号"
+      ],
+      "matches": [
+        "上海荣祥齿科材料有限公司",
+        "上海荣祥齿科材料",
+        "上海荣祥"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 5 行：1 行写复合注册证 国械注准20173634687/国械注准20173174687，4 行写 沪青械备20200027号。三个号都登记。"
+    },
+    {
+      "canonical": "上海浦东金环医疗用品股份有限公司",
+      "canonical_cn": "上海浦东金环医疗用品股份有限公司",
+      "country": "CN",
+      "brands": [
+        "金环"
+      ],
+      "license_nos": [
+        "国械注准20173654097",
+        "国械注准20173024097"
+      ],
+      "matches": [
+        "上海浦东金环医疗用品股份有限公司",
+        "上海浦东金环医疗用品",
+        "上海浦东金环"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 8 行，本地库 1 行，厂家唯一。注册证为复合号，两个子号都登记。"
+    },
+    {
+      "canonical": "科尔公司",
+      "canonical_cn": "科尔公司",
+      "country": "US",
+      "brands": [
+        "Kerr",
+        "科尔"
+      ],
+      "license_nos": [
+        "国械注进20162632700",
+        "国械注进20162172700"
+      ],
+      "matches": [
+        "科尔公司",
+        "科尔"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 6 行，本地库 1 行，厂家唯一。Kerr（科尔）在中国的注册人写法就是「科尔公司」，与单据原文一致，不做臆造式补全。"
+    },
+    {
+      "canonical": "MAILLEFER INSTRUMENTS HOLDING SARL 迈菲牙科器械控股公司",
+      "canonical_cn": "迈菲牙科器械控股公司",
+      "country": "CH",
+      "brands": [
+        "MAILLEFER",
+        "迈菲",
+        "ProTaper"
+      ],
+      "license_nos": [
+        "国械注进20182551826",
+        "国械注进20182171826"
+      ],
+      "matches": [
+        "maillefer instruments holding sarl 迈菲牙科器械控股公司",
+        "maillefer instruments holding sarl",
+        "maillefer instruments holding",
+        "maillefer instruments",
+        "maillefer",
+        "迈菲牙科器械控股公司",
+        "迈菲"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "法定名 45 字（含空格），仍在美亚「生产厂家」50 字上限内，不截断。真实单据 11 行，本地库 2 行。"
+    },
+    {
+      "canonical": "瑞士盖氏制药有限公司 Geistlich Pharma AG",
+      "canonical_cn": "盖氏制药",
+      "country": "CH",
+      "brands": [
+        "Geistlich",
+        "盖氏",
+        "Bio-Oss",
+        "Bio-Gide"
+      ],
+      "license_nos": [
+        "国械注进20183461771",
+        "国械注进20183171771"
+      ],
+      "matches": [
+        "瑞士盖氏制药有限公司 geistlich pharma ag",
+        "geistlich pharma ag",
+        "geistlich pharma",
+        "geistlich",
+        "瑞士盖氏制药有限公司",
+        "盖氏"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 8 行，本地库 1 行。法定名 30 字，未超上限。"
+    },
+    {
+      "canonical": "山西嘉文生物科技有限公司",
+      "canonical_cn": "山西嘉文生物科技有限公司",
+      "country": "CN",
+      "brands": [
+        "嘉文"
+      ],
+      "license_nos": [
+        "晋晋中械备20250013"
+      ],
+      "matches": [
+        "山西嘉文生物科技有限公司",
+        "山西嘉文生物科技",
+        "山西嘉文"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 12 行，本地库 4 行，厂家唯一。备案号原文写作「晋晋中械备 20250013」（号内有排版空格），_lic_tokens 不会把它切开。"
+    },
+    {
+      "canonical": "古莎齿科有限公司",
+      "canonical_cn": "古莎齿科有限公司",
+      "country": "DE",
+      "brands": [
+        "Kulzer",
+        "古莎",
+        "贺利氏",
+        "Heraeus"
+      ],
+      "license_nos": [
+        "沪械注准20152630287",
+        "沪械注准20192170525"
+      ],
+      "matches": [
+        "古莎齿科有限公司",
+        "古莎齿科",
+        "古莎"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 8 行，本地库 1 行。Kulzer（古莎）在中国注册人写法为「古莎齿科有限公司」；单据上有时仍印 Heraeus 老牌名，按注册证定位。"
+    },
+    {
+      "canonical": "天津中鼎生物医学科技有限公司",
+      "canonical_cn": "天津中鼎生物医学科技有限公司",
+      "country": "CN",
+      "brands": [
+        "中鼎"
+      ],
+      "license_nos": [
+        "津械注准20182630066",
+        "津械注准20232170008",
+        "国械注准20223170442"
+      ],
+      "matches": [
+        "天津中鼎生物医学科技有限公司",
+        "天津中鼎生物医学科技",
+        "天津中鼎",
+        "中鼎"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 19 行写复合号 津械注准20182630066/津械注准20232170008、16 行写 国械注准20223170442，本地库 1 行，厂家都是同一家，三个号都登记。"
+    },
+    {
+      "canonical": "汉斯夫(杭州)医学科技有限公司",
+      "canonical_cn": "汉斯夫(杭州)医学科技有限公司",
+      "country": "CN",
+      "brands": [
+        "汉斯夫"
+      ],
+      "license_nos": [
+        "浙械注准20252171279"
+      ],
+      "matches": [
+        "汉斯夫(杭州)医学科技有限公司",
+        "汉斯夫（杭州）医学科技有限公司",
+        "汉斯夫(杭州)",
+        "汉斯夫（杭州）"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 3 行，本地库 1 行，注册证原文写作「浙械注准 20252171279」（号内有排版空格）。**不要与「汉斯夫(台州)医学科技有限公司」合并**：那是另一家主体，备案号 浙台械备20240089，单据里两家各出现过。"
+    },
+    {
+      "canonical": "山东沪鸽口腔医疗集团有限公司",
+      "canonical_cn": "山东沪鸽口腔医疗集团有限公司",
+      "country": "CN",
+      "brands": [
+        "沪鸽",
+        "Huge"
+      ],
+      "license_nos": [
+        "鲁械注准20182170360",
+        "鲁日械备20170014号"
+      ],
+      "matches": [
+        "山东沪鸽口腔医疗集团有限公司",
+        "山东沪鸽口腔医疗集团",
+        "山东沪鸽",
+        "沪鸽"
+      ],
+      "source": "user-confirmed-2026-11-25",
+      "note": "真实单据 5 行，本地库 1 行。注册证原文是逗号复合号「鲁械注准20182170360,鲁日械备20170014号」。"
+    }
+  ]
+}

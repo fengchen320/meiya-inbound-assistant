@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "note": "电商平台的供货方名称不在单据里印（随货单只有收货方与仓库），只能按来源配置；改这里等于改入库单上记的供应商，必须与美亚供应商库里的名字一致。buyer 填本店在平台上的收货单位全称（仅供核对，可不填）。",
+ "mmm": {
+  "supplier": "YOUR_SUPPLIER_NAME",
+  "buyer": "YOUR_CLINIC_NAME",
+  "site": "https://www.mmm920.com"
+ },
+ "yae": {
+  "supplier": null,
+  "buyer": "YOUR_CLINIC_NAME",
+  "site": "https://yae920.com"
+ }
+}

@@ -1,0 +1,63 @@
+# e看牙模板 字段映射（牙e在线 / yae920.com 导出的入库模板）
+# 实测样本: exportExcel 单 Sheet，表头在第 1 行，数据自第 2 行
+template_id: yae_ekanya_v1
+source: 牙e在线-导出入库模板-e看牙模板
+file_type: xls            # 实为 BIFF8 的 .xls，需 xlrd 或转换后读取
+sheet: exportExcel
+header_row: 1
+data_start_row: 2
+has_merged_header: false
+stop_on_empty: 物料名称 is null
+
+columns:
+  - src: 物料名称
+    dst: [product_name, spec_hint]
+    post: strip_marks          # 剥离（10小包）等包装后缀进 package_spec
+  - src: 品牌
+    dst: [brand]
+    post: brand_alias
+  - src: 规格
+    dst: [spec]
+    post: normalize_spec       # 630-0032（1/4 3.5OZ-狐狸）→ 保留原文并在 spec_attrs 拆出 色号/尺寸
+  - src: 单位
+    dst: [unit]
+    post: unit_whitelist
+  - src: 供应商
+    dst: [supplier]
+    post: supplier_match_or_create
+  - src: 入库仓库
+    dst: [warehouse]
+    post: warehouse_match      # 主仓库
+  - src: 数量
+    dst: [qty]
+    post: decimal
+  - src: 单价
+    dst: [unit_price]
+    post: decimal(4)
+  - src: 总金额
+    dst: [amount]
+    post: decimal(2)
+  - src: 一级分类
+    dst: [category_l1]
+  - src: 二级分类
+    dst: [category_l2]
+  - src: 三级分类
+    dst: [category_l3]
+  - src: 生产批号
+    dst: [batch_no]
+    post: as_text             # 20260506 这类纯数字批号必须按文本读，禁止当日期
+  - src: 有效期
+    dst: [expire_date]
+    post: date_yyyy_mm_dd      # "2030-05-05"
+  - src: 生产日期
+    dst: [produce_date]
+    post: date_epoch_ms        # 1777996800000 → 2026-05-06
+  - src: 注册证号
+    dst: [license_no]
+    post: license_normalize    # 兼容 "津械备20230239号" 与 "国械注进20162174128"
+  - src: 生产厂家
+    dst: [manufacturer]
+    post: manufacturer_alias
+
+validators:
+  - amount_eq_price_x_qty   # |总金额 - 单价*数量| <= 0.01

@@ -1,0 +1,61 @@
+# 供应商《销售清单》字段映射（示例：某医药公司导出的 xlsx）
+# 实测样本: 单 Sheet "sheet1"，表头在第 5 行（前 4 行为单据头区），数据自第 6 行
+template_id: supplier_saleslist_v1
+source: 供应商销售清单（xlsx）
+sheet: sheet1
+header_row: 5
+data_start_row: 6
+stop_on_empty: 药品通用名/商品名称/产地 is null
+
+header_block:
+  1: {col: 1, key: title}          # 某某医药有限公司销售清单
+  2: {col: 2, key: warehouse}      # 发货仓库: 某某仓
+  2: {col: 16, key: total_amount}  # 合计金额: 33.80（示例值）
+  3: {col: 2, key: buyer}          # 收货单位
+  3: {col: 16, key: doc_no}        # 单据编号: DEMO000000001
+  4: {col: 2, key: address}        # 收货地址
+  4: {col: 16, key: doc_date}      # 发货日期: 20260630（示例值）
+
+columns:
+  - src: 药品通用名/商品名称/产地
+    dst: [product_name]
+  - src: 生产厂家
+    dst: [manufacturer]
+  - src: 器械生产许可证号/备案凭证号
+    dst: [prod_license_no]
+    post: slash_to_null        # "/" 视为空
+  - src: 批准文号/注册证号/备案凭证号
+    dst: [license_no]
+    post: strip_parenthetical  # "国械注进20162174128（原注册证号：国械注进20162634128）" → 取首个
+  - src: 剂型
+    dst: [dosage_form]
+  - src: 规格/型号
+    dst: [spec, package_spec]
+    post: split_spec
+  - src: 批号/序列号
+    dst: [batch_no]
+    post: as_text
+  - src: 生产日期
+    dst: [produce_date]
+    post: date_yyyy_mm_partial # "202506" 仅到月 → 置为 2025-06-01 且 confidence=0.7、标记 incomplete
+  - src: 有效期至
+    dst: [expire_date]
+    post: date_yyyy_mm_dd_compact  # "20280623" → 2028-06-23
+  - src: 单位
+    dst: [unit]
+  - src: 数量
+    dst: [qty]
+  - src: 含税单价
+    dst: [unit_price]
+  - src: 含税金额
+    dst: [amount]
+  - src: 储运
+    dst: [storage_condition]
+  - src: 上市许可持有人
+    dst: [mah]
+  - src: 医保编码
+    dst: [medical_insurance_code]
+
+validators:
+  - amount_eq_price_x_qty
+  - doc_total_eq_sum_lines   # 33.80 == 33.8

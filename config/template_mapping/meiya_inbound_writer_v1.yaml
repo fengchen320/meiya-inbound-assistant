@@ -1,0 +1,125 @@
+# 美亚美牙 —— 入库单批量导入模板（Writer 输出规范）
+# 来源：2026-11-19 实测「新增进货 → 模板下载」得到的 物品非零散入库导入模板.xls
+# 该文件不是"输入解析模板"，而是"输出生成规范"，方向与 config/template_mapping/*.yaml 相反。
+
+target: meiya_inbound_import_v1
+purpose: writer_output        # 生成上传文件，不做解析
+source_template: docs/fixtures/shots/in_template.xls
+sheet_name: 期初物品空模板
+keep_notice_row: true         # 第 1 行为合并的填写须知，必须原样保留
+header_row: 2
+data_start_row: 3
+column_count: 15
+
+constraints:
+  date_format: 'YYYY-MM-DD'   # 或 YYYY/MM/DD；其余格式系统拒绝
+  date_cell_number_format: '@' # 文本格式，防止被 Excel 转成日期序列号
+  lot_no_force_text: true      # 批次号列强制文本，保留前导零，禁日期化
+  price_excl_tax: omit         # 采购单价（不含税）由系统计算，留空
+  split_by_category: true      # 药品与耗材必须拆成两张单
+
+columns:
+  - index: 1
+    header: 物品名称
+    required: true
+    from: product_name
+  - index: 2
+    header: 物品编号
+    required: true                   # 实测：填错即整行报错，等于事实必填
+    from: item_no                    # 只能来自「物品管理 → 批量导出」第 1 列（系统分配的 5 位序号）
+    reject_sources: [product_code, internal_code, license_no, any_supplier_value]
+    on_missing: block_submit         # 拿不到映射就阻断，禁止猜
+  - index: 3
+    header: 规格
+    required: true
+    from: spec
+  - index: 4
+    header: 品牌
+    required: true
+    from: brand
+    fallback: manufacturer       # 品牌缺失时用生产厂家，并打标 brand_from_mfr
+  - index: 5
+    header: 采购单位
+    required: true
+    from: unit
+    validator: unit_whitelist
+  - index: 6
+    header: 采购数量
+    required: true
+    from: quantity
+  - index: 7
+    header: 采购单价（含税）
+    required: true
+    from: unit_price_tax_incl
+  - index: 8
+    header: 税率
+    required: false
+    from: tax_rate
+    default: 13
+  - index: 9
+    header: 内部编号
+    required: true
+    from: internal_code              # 产品库导出表 col3 回查；新建档时自行分配
+    allocate: { prefix_base: 90001, must_check_duplicates: true, seen_used: '10000/10001 已被替硝锉占用' }
+  - index: 10
+    header: 一级分类
+    required: true
+    from: category_l1
+    default_from: category_inference
+    allowed_values: [药品类, 种植类, 正畸类, 补牙类, 修复类, 一次性耗材, 牙周类]   # 实测分类树，必须带「类」
+  - index: 11
+    header: 二级分类
+    required: true
+    from: category_l2
+    allow_empty: true
+  - index: 12
+    header: 三级分类
+    required: true
+    from: category_l3
+    allow_empty: true
+  - index: 13
+    header: 批次号
+    required: true
+    from: lot_no
+    force_text: true
+  - index: 14
+    header: 生产日期
+    required: true
+    from: mfg_date
+    date_precision_handling: pad_to_first_day_and_flag
+  - index: 15
+    header: 有效期至
+    required: true
+    from: expiry_date
+
+reject_if:
+  - any_required_column_empty
+  - mixed_drug_and_consumable
+  - expiry_before_mfg
+  - amount_mismatch_over_0_01
+  - supplier_name_placeholder
+
+post_upload_verify:
+  - grid_row_count_equals_submitted
+  - first_and_last_row_lot_mfg_expiry_match
+  - total_amount_match_within_0_01
+
+two_stage_flow:                 # 阶段顺序不可颠倒
+  stage_1_create:
+    entry: 产品库 → 物品管理 → 批量导入
+    template: docs/fixtures/shots/product_template_v2.xlsx   # 29 列，无「物品编号」列
+    column_mapping: by_header_name          # 禁止按列号偏移：尾部 备注/国家医保编码/医保限价 顺序已变
+    leave_blank: [二级分类, 三级分类, 最小库存, 有效期预警]   # 实测 297/297 为空
+    default_value:
+      是否高值耗材: "否"                     # 实测 297/297 为「否」，含全部 37 条种植类
+    required_red_columns: [物品名称, 一级分类, 规格, 采购单位, 拆包数量, 拆包单位]
+    note: 物品编号由系统建档时分配，模板中不可填
+  stage_2_export:
+    entry: 产品库 → 物品管理 → 批量导出
+    output: 产品库.xls
+    note: 实为 xlsx 容器（PK 头），须按 xlsx 打开；Sheet「物品管理」，第 2 行表头，35 列
+    build_map: { key: 第3列内部编号, value: 第1列物品编号 }
+  stage_3_inbound:
+    entry: 入库单 → 新增进货 → 批量导入
+    template: 物品非零散入库导入模板.xls                 # 15 列
+    item_no_from: stage_2_export map[内部编号]

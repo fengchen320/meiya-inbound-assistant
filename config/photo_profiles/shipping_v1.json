@@ -1,0 +1,160 @@
+{
+  "profile_id": "shipping_v1",
+  "doc_type": "随货同行单",
+  "description": "《随货同行对账单》照片版式（商品编号/医保编码/商品代码/商品ID/品名/规格型号/生产企业/单位/数量/单价/金额/批号/生产日期/失效日期/注册证号）：商品编号/医保编码/商品代码/商品ID/品名/规格型号/生产企业/单位/数量/单价/金额/批号/生产日期/失效日期/注册证号",
+  "ncols_hint": 15,
+  "header_keywords": [
+    "品名",
+    "规格型号",
+    "生产企业",
+    "数量",
+    "单价",
+    "金额",
+    "批号",
+    "生产日期",
+    "失效日期"
+  ],
+  "min_header_hits": 4,
+  "_comment_min_line_ratio": "表格线检测阈值（仅扫描件/合成样本用；真实照片走表头关键字定列）",
+  "min_line_ratio": 0.1,
+  "_comment_hdr_tol": "表头定列时把与表头行 y 区间重叠 ±该倍率字高的框都当成表头（真实单据表头是两行印的）",
+  "hdr_tol_ratio": 0.6,
+  "stop_keywords": [
+    "合计",
+    "本页小计",
+    "备注",
+    "收货人",
+    "复核人",
+    "单位盖章"
+  ],
+  "doc_fields": {
+    "doc_no": [
+      "销售单号",
+      "单据号",
+      "订单号"
+    ],
+    "doc_date": [
+      "制单日期",
+      "发货日期",
+      "日期"
+    ],
+    "supplier_raw": [
+      "供货单位",
+      "销售单位",
+      "供应商"
+    ],
+    "buyer": [
+      "购货单位",
+      "收货单位",
+      "客户名称"
+    ],
+    "total_amount_cn": [
+      "合计金额（大写）",
+      "合计金额(大写)"
+    ]
+  },
+  "columns": [
+    {
+      "dst": "goods_code",
+      "names": [
+        "商品编号",
+        "编号"
+      ]
+    },
+    {
+      "dst": "insurance_code",
+      "names": [
+        "医保编码"
+      ]
+    },
+    {
+      "dst": "supplier_code",
+      "names": [
+        "商品代码"
+      ]
+    },
+    {
+      "dst": "goods_id",
+      "names": [
+        "商品ID",
+        "商品 ID"
+      ]
+    },
+    {
+      "dst": "product_name",
+      "names": [
+        "品名",
+        "商品名称",
+        "物品名称"
+      ],
+      "required": true
+    },
+    {
+      "dst": "spec",
+      "names": [
+        "规格型号",
+        "规格"
+      ]
+    },
+    {
+      "dst": "manufacturer",
+      "names": [
+        "生产企业",
+        "生产厂家"
+      ]
+    },
+    {
+      "dst": "unit",
+      "names": [
+        "单位"
+      ]
+    },
+    {
+      "dst": "quantity",
+      "names": [
+        "数量"
+      ]
+    },
+    {
+      "dst": "unit_price",
+      "names": [
+        "单价"
+      ]
+    },
+    {
+      "dst": "amount",
+      "names": [
+        "金额"
+      ]
+    },
+    {
+      "dst": "lot_no",
+      "names": [
+        "批号"
+      ]
+    },
+    {
+      "dst": "mfg_date",
+      "names": [
+        "生产日期"
+      ]
+    },
+    {
+      "dst": "expiry_date",
+      "names": [
+        "失效日期",
+        "有效期至"
+      ]
+    },
+    {
+      "dst": "license_no",
+      "names": [
+        "注册证号",
+        "或注册证号",
+        "备案凭证号"
+      ]
+    }
+  ],
+  "_comment_default_unit": "采购单位兜底值。真图上单个汉字（「个」）最容易被表格线压掉；只在识别不到时用，且必告警",
+  "default_unit": "个"
+}
